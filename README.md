@@ -1,6 +1,7 @@
 # tls_client_hello
 ## Build
 This project use `vcpkg` to install dependences `brotli, boringssl, boost-asio`
+**!!! Update: IT'S BETTER TO PUSH `0004-patch-ech-paddingsize.patch` into `<PATH TO VCPKG>/ports/boringssl` and add this patch file to `portfile.cmake` to avoid short ECH padding !!!** 
 ```bash
 cd <PATH TO VCPKG>
 ./vcpkg install brotli boringssl boost-asio

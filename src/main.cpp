@@ -35,8 +35,6 @@ enum {
 
 std::string SNI;
 namespace ChromeEnv {
-    uint8_t *ech_config_list;
-    size_t ech_config_list_len;
     namespace BrotilDecoder {
         int DecompressBrotliCert(SSL *ssl,
                          CRYPTO_BUFFER **out,
@@ -81,8 +79,8 @@ namespace ChromeEnv {
 
         // ECH
         SSL_set_enable_ech_grease(handle, 1);
-        if (!SSL_set1_ech_config_list(handle, ech_config_list, ech_config_list_len)) 
-            return false;
+        // if (!SSL_set1_ech_config_list(handle, ech_config_list, ech_config_list_len)) 
+        //     return false;
         return true;
     }
     SSL_CTX* create_ctx() { 
@@ -114,11 +112,7 @@ namespace ChromeEnv {
         SSL_CTX_enable_signed_cert_timestamps(hCTX);
         SSL_CTX_enable_ocsp_stapling(hCTX);
 
-        if (!SSL_ECH_KEYS_marshal_retry_configs(SSL_ECH_KEYS_new(), &ech_config_list, &ech_config_list_len)) {
-            std::cerr << "SSL_ECH_KEYS_marshal_retry_configs failed!" << '\n';
-            return nullptr;
-        }
-
+        
         unsigned char protos[] = {2, 'h', '2',
                                   8, 'h', 't', 't', 'p', '/', '1', '.', '1'};
 
